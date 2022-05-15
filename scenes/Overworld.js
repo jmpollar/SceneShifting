@@ -19,7 +19,7 @@ class Overworld extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.ROOMWIDTH*3, this.ROOMHEIGHT*2);
 
         // Everything is 1:1 scale
-        this.cameras.main.setZoom(1.0);
+        this.cameras.main.setZoom(1);
     
         // setScroll moves the viewport to the starting room (1 down, 1 over)
         this.cameras.main.setScroll(this.ROOMWIDTH, this.ROOMHEIGHT);
@@ -52,15 +52,55 @@ class Overworld extends Phaser.Scene {
             this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
 
         this.physics.world.on('worldbounds', (body, blockedUp, blockedDown, blockedLeft, blockedRight) => {
+            //good
             if (blockedUp) {
+                this.cameras.main.shake(250);
+                this.cameras.main.flash(250);
                 this.cameras.main.pan(
                     this.ROOMWIDTH*1.5,
                     this.ROOMHEIGHT*0.5,
-                    3000,
-                    'Linear'
+                    1000,
+                    'Bounce'
                 );
                 this.physics.world.setBounds(this.ROOMWIDTH-this.player.displayWidth/2, 0, 
                     this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+            }//good
+            if (blockedLeft) {
+                this.cameras.main.shake(250);
+                this.cameras.main.flash(250);
+                this.cameras.main.pan(
+                    this.ROOMWIDTH/1.5,
+                    this.ROOMHEIGHT*1.5,
+                    1000,
+                    'Bounce'
+                );
+                this.physics.world.setBounds(this.ROOMWIDTH/2-this.player.displayWidth/2, this.ROOMHEIGHT-this.player.displayHeight/2, 
+                    this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+            }
+            if (blockedRight) {
+                this.cameras.main.shake(250);
+                this.cameras.main.flash(250);
+                this.cameras.main.pan(
+                    this.ROOMWIDTH*3,
+                    this.ROOMHEIGHT*2,
+                    1000,
+                    'Bounce'
+                );
+                this.physics.world.setBounds(this.ROOMWIDTH*2-this.player.displayWidth/2, this.ROOMHEIGHT-this.player.displayHeight/2, 
+                    this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
+            }
+            if (blockedDown) {
+                this.cameras.main.shake(250);
+                this.cameras.main.flash(250);
+                this.cameras.main.pan(
+                    //good
+                    this.ROOMWIDTH*1.5,
+                    this.ROOMHEIGHT/0.5,
+                    1000,
+                    'Bounce'
+                );
+                this.physics.world.setBounds(this.ROOMWIDTH-this.player.displayWidth/2, this.ROOMHEIGHT-this.player.displayHeight/2, 
+                this.ROOMWIDTH+this.player.displayWidth, this.ROOMHEIGHT+this.player.displayHeight/2);
             }
         });
 
